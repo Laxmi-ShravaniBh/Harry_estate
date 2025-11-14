@@ -35,14 +35,10 @@ app.use("/api/contact", contactRouter);
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Catch-all handler for client-side routing
-app.use((req, res, next) => {
-    if (!req.path.startsWith('/api')) {
-        res.sendFile(path.join(__dirname, 'client/build/index.html'));
-    } else {
-        next();
-    }
-});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
